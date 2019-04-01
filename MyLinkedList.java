@@ -214,7 +214,7 @@ public class MyLinkedList<E>{
       end = other.end;
     }
     length += other.size();
-    MyLinkedList temp = new MyLinkedList();
+    MyLinkedList<E> temp = new MyLinkedList<E>();
     other = temp;
   }
 
