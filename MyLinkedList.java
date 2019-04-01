@@ -1,14 +1,67 @@
-public class MyLinkedList{
+public class MyLinkedList<E>{
 
-  Node start;
-  Node end;
-  int length;
+  private class Node {
+
+    private Node next, prev;
+    private E data;
+
+    public Node(E dataa, Node nextNode, Node prevNode) {
+      next = nextNode;
+      prev = prevNode;
+      data = dataa;
+    }
+
+    public Node() {
+      data = null;
+    }
+
+    public Node next() {
+      return next;
+    }
+
+    public Node prev() {
+      return prev;
+    }
+
+    public void setNext(Node other) {
+      next = other;
+    }
+
+    public void setPrev(Node other) {
+      prev = other;
+    }
+
+    public String toString() {
+      return "" + data;
+    }
+
+    public E setData(E i) {
+      E oldData = data;
+      data = i;
+      return oldData;
+    }
+
+    public E getData() {
+      return data;
+    }
+
+  }
+
+  private Node start;
+  private Node end;
+  private int length;
 
   public MyLinkedList(){
     length = 0;
   }
 
-  public boolean add(Integer value) {
+  public void clear() {
+    length = 0;
+    start = null;
+    end = null;
+  }
+
+  public boolean add(E value) {
     if (length == 0) {
       Node n = new Node(value, null, null);
       start = n;
@@ -49,22 +102,22 @@ public class MyLinkedList{
     return result;
   }
 
-  public Integer get(int index) {
+  public E get(int index) {
     if (index < 0 || index >= length)
       throw new IndexOutOfBoundsException();
     return getNthNode(index).getData();
   }
 
-  public Integer set(int index, Integer value) {
+  public E set(int index, E value) {
     if (index < 0 || index >= length)
       throw new IndexOutOfBoundsException();
     Node temp = getNthNode(index);
-    Integer oldData = temp.getData();
+    E oldData = temp.getData();
     temp.setData(value);
     return oldData;
   }
 
-  public boolean contains(Integer value) {
+  public boolean contains(E value) {
     boolean temp = false;
     Node current = start;
     for (int i = 0; i < length; i++) {
@@ -75,7 +128,7 @@ public class MyLinkedList{
     return temp;
   }
 
-  public int indexOf(Integer value) {
+  public int indexOf(E value) {
     Node current = start;
     for (int i = 0; i < length; i++) {
       if (current.getData() == value) {
@@ -86,7 +139,7 @@ public class MyLinkedList{
     return -1;
   }
 
-  public void add(int index, Integer value) {
+  public void add(int index, E value) {
     if (index < 0 || index >= length)
       throw new IndexOutOfBoundsException();
     Node n = new Node(value, null, null);
@@ -107,12 +160,12 @@ public class MyLinkedList{
     }
   }
 
-  public Integer remove(int index) {
+  public E remove(int index) {
     if (index < 0 || index >= length)
       throw new IndexOutOfBoundsException();
     Node n = getNthNode(index);
     Node prev, next;
-    Integer oldData = n.getData();
+    E oldData = n.getData();
     if (index == 0) {
       next = n.next();
       next.setPrev(null);
@@ -135,7 +188,11 @@ public class MyLinkedList{
     return oldData;
   }
 
-  public boolean remove(Integer value) {
+  public E removeFront() {
+    return remove(1);
+  }
+
+  public boolean remove(E value) {
     if (contains(value)) {
       remove(indexOf(value));
       return true;
@@ -143,7 +200,7 @@ public class MyLinkedList{
     return false;
   }
 
-  public void extend(MyLinkedList other) {
+  public void extend(MyLinkedList<E> other) {
     if (length == 0) {
       end = other.end;
       start = other.start;
