@@ -189,7 +189,7 @@ public class MyLinkedList<E>{
   }
 
   public E removeFront() {
-    return remove(1);
+    return remove(0);
   }
 
   public boolean remove(E value) {
