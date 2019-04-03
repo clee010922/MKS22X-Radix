@@ -38,4 +38,10 @@ public class Radix {
     return result;
   }
 
+  public static void main(String args[]) {
+    int[] data = {0, 10, 342, -5452, 399, -349299};
+    radixsort(data);
+    System.out.println(data);
+  }
+
 }
