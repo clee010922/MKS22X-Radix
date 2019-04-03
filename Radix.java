@@ -16,8 +16,19 @@ public class Radix {
       max /= 10;
       k++;
     }
-    while (k > 0) {
-      for (int i = 0; i < k; i++) {
+    MyLinkedList temp = new MyLinkedList();
+    for (int i = 0; i < k; i++) {
+      for (int j = 0; j < data.length; j++) {
+        int digit = Math.abs(getNthDigit(data[j], i));
+        if (data[j] > 0)
+          buckets[digit+10].add(data[j]);
+        else buckets[digit].add(data[j]);
+      }
+      for (int x = 0; x < buckets.length; i++) {
+        temp.extend(buckets[i]);
+      }
+      for (int y = 0; y < data.length; y++) {
+        data[y] = (int)temp.removeFront();
       }
     }
   }
