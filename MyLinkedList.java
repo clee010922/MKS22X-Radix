@@ -188,8 +188,20 @@ public class MyLinkedList<E>{
     return oldData;
   }
 
-  public E removeFront() {
-    return remove(0);
+  public E removeFront(){
+    if(length == 1){
+      E temp = start.getData();
+      start = end = null;
+      length = 0;
+      return temp;
+    }
+    Node temp = start;
+    Node newStart = start.next();
+    start = newStart;
+    newStart.setPrev(null);
+    temp.setNext(null);
+    length--;
+    return temp.getData();
   }
 
   public boolean remove(E value) {
@@ -200,22 +212,20 @@ public class MyLinkedList<E>{
     return false;
   }
 
-  public void extend(MyLinkedList<E> other) {
-    if (length == 0) {
-      end = other.end;
+  public void extend(MyLinkedList<E> other){
+    if (size() == 0){
       start = other.start;
-    }
-    else if (other.size() == 0) {
       end = other.end;
+      length += other.size();
+      other.clear();
     }
-    else {
+    else if (other.size() > 0){
+      length += other.size();
       end.setNext(other.start);
       other.start.setPrev(end);
       end = other.end;
+      other.clear();
     }
-    length += other.size();
-    MyLinkedList<E> temp = new MyLinkedList<E>();
-    other = temp;
   }
-
+  
 }
