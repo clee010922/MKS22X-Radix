@@ -12,11 +12,11 @@ public class Radix {
     for (int i = 0; i < data.length; i++){
       if (Math.abs(data[i]) > Math.pow(10, k)) {
         String val = "" + data[i];
-        k = val.length()-1;
+        k = val.length();
       }
       myData.add(data[i]);
     }
-    System.out.println(k);
+    //System.out.println(k);
     MyLinkedList temp = new MyLinkedList();
     for (int i = 0; i < k; i++) {
       for (int j = 0; j < data.length; j++) {
@@ -40,10 +40,39 @@ public class Radix {
     return result;
   }
 
-  public static void main(String args[]) {
-    int[] data = {0, 10, 342, -5452, 399, -12345678};
-    radixsort(data);
-    System.out.println(Arrays.toString(data));
+  public static void main(String[]args){
+    System.out.println("Size\t\tMax Value\tradix/builtin ratio ");
+    int[]MAX_LIST = {1000000000,500,10};
+    for(int MAX : MAX_LIST){
+      for(int size = 31250; size < 2000001; size*=2){
+        long qtime=0;
+        long btime=0;
+        //average of 5 sorts.
+        for(int trial = 0 ; trial <=5; trial++){
+          int []data1 = new int[size];
+          int []data2 = new int[size];
+          for(int i = 0; i < data1.length; i++){
+            data1[i] = (int)(Math.random()*MAX);
+            data2[i] = data1[i];
+          }
+          long t1,t2;
+          t1 = System.currentTimeMillis();
+          Radix.radixsort(data2);
+          t2 = System.currentTimeMillis();
+          qtime += t2 - t1;
+          t1 = System.currentTimeMillis();
+          Arrays.sort(data1);
+          t2 = System.currentTimeMillis();
+          btime+= t2 - t1;
+          if(!Arrays.equals(data1,data2)){
+            System.out.println("FAIL TO SORT!");
+            System.exit(0);
+          }
+        }
+        System.out.println(size +"\t\t"+MAX+"\t"+1.0*qtime/btime);
+      }
+      System.out.println();
+    }
   }
 
 }
